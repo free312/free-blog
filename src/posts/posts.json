@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "欢迎来到我的博客",
+    "excerpt": "这是我的第一篇博客文章，我将在这里分享我的学习和思考。",
+    "content": "## 欢迎来到我的博客\n\n这是我的第一篇博客文章，我将在这里分享我的学习和思考。\n\n### 关于我\n我是一名前端开发者，热爱React、Next.js和TypeScript。\n\n### 博客内容\n我会在这里分享：\n- 前端技术文章\n- 学习笔记\n- 项目经验\n- 技术思考\n\n希望我的分享能对你有所帮助！",
+    "date": "2025-12-29",
+    "author": "作者名称",
+    "tags": ["前端", "Next.js", "TypeScript"]
+  },
+  {
+    "id": "2",
+    "title": "Next.js静态导出教程",
+    "excerpt": "学习如何使用Next.js的静态导出功能部署到GitHub Pages。",
+    "content": "## Next.js静态导出教程\n\n在这篇文章中，我将介绍如何使用Next.js的静态导出功能部署到GitHub Pages。\n\n### 什么是静态导出？\n静态导出允许将Next.js应用导出为静态HTML文件，这些文件可以部署到任何静态托管服务。\n\n### 配置步骤\n1. 在next.config.ts中配置output: 'export'\n2. 创建必要的页面组件\n3. 运行npm run build\n4. 将out目录部署到GitHub Pages\n\n### 注意事项\n- 静态导出不支持动态路由以外的功能\n- 需要确保所有数据都是静态生成的\n\n希望这篇教程对你有所帮助！",
+    "date": "2025-12-28",
+    "author": "作者名称",
+    "tags": ["Next.js", "静态导出", "GitHub Pages"]
+  }
+]
