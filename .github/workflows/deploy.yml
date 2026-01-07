@@ -13,20 +13,28 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '18'
           cache: 'pnpm'
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v3
         with:
-          version: latest
+          version: 8.x
           run_install: false
+
+      - name: Verify pnpm installation
+        run: |
+          which pnpm
+          pnpm --version
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build and export
+      - name: Build
         run: pnpm run build
+
+      - name: Export static files
+        run: pnpm run export
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
-  output: 'export',
   basePath: '/free-blog',
   assetPrefix: '/free-blog',
   
