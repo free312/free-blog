@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { getPostById } from '../../posts/posts';
-import { Post } from '../../types/blog';
+// import { Post } from '../../types/blog';
 import Link from 'next/link';
 
 export default function PostPage() {
