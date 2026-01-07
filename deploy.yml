@@ -1,11 +1,9 @@
-name: Deploy Next.js to GitHub Pages
+name: Deploy Next.js to GitHub Pages (pnpm)
 
 on:
-  # 当推代码到main分支时触发
   push:
-    branches: ['main']
-  # 可选：允许手动触发
-  workflow_dispatch:
+    branches: ['main'] # 推送到 main 分支时触发
+  workflow_dispatch: # 允许手动触发
 
 jobs:
   deploy:
@@ -17,20 +15,23 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18' # 适配你的Next.js版本（建议18+/20+）
-          cache: 'npm' # 缓存依赖，加速构建
+          node-version: '18' # 适配你的 Next.js 版本（18+/20+ 均可）
+          cache: 'pnpm' # 缓存 pnpm 依赖，加速构建
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3 # 安装 pnpm 环境
+        with:
+          version: latest # 使用最新版 pnpm
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install # 替换为 pnpm 安装依赖
 
       - name: Build static files
-        run: npm run build
+        run: pnpm run build # 替换为 pnpm 构建
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          # 部署out文件夹的内容到gh-pages分支
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
-          # 强制推送（覆盖旧内容）
-          force_orphan: true
+          publish_dir: ./out # 部署 out 文件夹
+          force_orphan: true # 强制覆盖 gh-pages 分支
