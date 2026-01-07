@@ -2,8 +2,8 @@ name: Deploy Next.js to GitHub Pages (pnpm)
 
 on:
   push:
-    branches: ['main'] # 推送到 main 分支时触发
-  workflow_dispatch: # 允许手动触发
+    branches: ['main']
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -15,23 +15,39 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18' # 适配你的 Next.js 版本（18+/20+ 均可）
-          cache: 'pnpm' # 缓存 pnpm 依赖，加速构建
+          node-version: '18'
+          cache-dependency-path: 'pnpm-lock.yaml' # 指定pnpm锁文件路径
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v3 # 安装 pnpm 环境
+        uses: pnpm/action-setup@v3
         with:
-          version: latest # 使用最新版 pnpm
+          version: latest
+          # 👇 关键修改2：启用pnpm缓存，指定存储路径
+          run_install: false # 禁用自动安装，手动执行pnpm install
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install # 替换为 pnpm 安装依赖
+        run: pnpm install --frozen-lockfile # 👇 关键修改3：用--frozen-lockfile确保依赖版本一致
 
       - name: Build static files
-        run: pnpm run build # 替换为 pnpm 构建
+        run: pnpm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out # 部署 out 文件夹
-          force_orphan: true # 强制覆盖 gh-pages 分支
+          publish_dir: ./out
+          force_orphan: true
